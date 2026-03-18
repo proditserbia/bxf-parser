@@ -64,9 +64,9 @@ def write_outputs(
 ) -> None:
     """Write CSV and/or XLSX to out_path (stem already set by caller)."""
     if output_format in ("csv", "both"):
-        export_csv(rows, out_path.with_suffix(".csv"))
+        export_csv(rows, out_path.with_name(out_path.name + ".csv"))
     if output_format in ("xlsx", "both"):
-        export_xlsx(rows, out_path.with_suffix(".xlsx"))
+        export_xlsx(rows, out_path.with_name(out_path.name + ".xlsx"))
 
 
 # ---------------------------------------------------------------------------
@@ -151,7 +151,7 @@ def main(argv: List[str] | None = None) -> int:
         all_rows.extend(rows)
 
         # Per-file output
-        out_stem = out_dir / file_path.stem
+        out_stem = out_dir / file_path.name
         write_outputs(rows, out_stem, args.output_format)
         logger.info("Wrote %d events for %s", len(rows), file_path.name)
 
