@@ -447,7 +447,7 @@ class TestCLIOutputFilenames:
         assert "E2602280.TV-1.xlsx" in stems, "per-channel file for TV-1 missing"
         assert "E2602280.TV-2.xlsx" in stems, "per-channel file for TV-2 missing"
         assert "E2602280.xlsx" not in stems, "colliding combined stem must not appear"
-        assert "combined_all.xlsx" in stems
+        assert "combined_all.xlsx" not in stems, "combined_all export must not be produced"
 
     def test_cli_done_summary_log_message(self, tmp_path, caplog):
         """The final summary log message must say 'Done — N total events written to DIR'."""

@@ -277,8 +277,6 @@ class BxfParserApp(tk.Tk):
                 logger.info("Wrote %d events for %s", len(rows), file_path.name)
 
             if all_rows:
-                combined_stem = out_path / "combined_all"
-                write_outputs(all_rows, combined_stem, output_format)
                 logger.info(
                     "Done — %d total events written to %s", len(all_rows), out_path
                 )

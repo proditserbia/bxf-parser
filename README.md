@@ -100,11 +100,6 @@ For each input file `schedule.xml` the tool writes:
 - `{out}/schedule.csv`
 - `{out}/schedule.xlsx`
 
-Plus combined files:
-
-- `{out}/combined_all.csv`
-- `{out}/combined_all.xlsx`
-
 ---
 
 ## Normalised output schema
