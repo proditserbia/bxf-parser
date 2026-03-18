@@ -272,7 +272,7 @@ class BxfParserApp(tk.Tk):
                     continue
 
                 all_rows.extend(rows)
-                out_stem = out_path / file_path.stem
+                out_stem = out_path / file_path.name
                 write_outputs(rows, out_stem, output_format)
                 logger.info("Wrote %d events for %s", len(rows), file_path.name)
 

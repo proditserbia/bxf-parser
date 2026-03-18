@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import csv
 import json
+import logging
 from pathlib import Path
 
 import pytest
@@ -30,6 +31,7 @@ from bxf_parser.parsers import (
     parse_file,
 )
 from bxf_parser.exporters import export_csv, export_xlsx
+from bxf_parser.bxf_parser import main as cli_main
 
 DATA = Path(__file__).parent / "data"
 FORMAT_A_XML = DATA / "sample_format_a.xml"
@@ -416,3 +418,46 @@ class TestNormalizedEvent:
         assert ev.is_graphics is False
         assert ev.is_live is False
         assert ev.is_main is False
+
+
+# ---------------------------------------------------------------------------
+# CLI integration tests
+# ---------------------------------------------------------------------------
+
+class TestCLIOutputFilenames:
+    """Regression tests for per-channel output filename uniqueness."""
+
+    def test_distinct_filenames_for_dot_suffixed_channels(self, tmp_path):
+        """Each channel file (e.g. E2602280.TV-1, E2602280.TV-2) must produce
+        a distinct XLSX file; they must not all overwrite the same E2602280.xlsx."""
+        out_dir = tmp_path / "out"
+        # Copy the same sample into two files that share a base name but differ
+        # in their dot-separated channel suffix, mimicking E2602280.TV-1 / .TV-2
+        src = FORMAT_A_XML
+        ch1 = tmp_path / "E2602280.TV-1"
+        ch2 = tmp_path / "E2602280.TV-2"
+        ch1.write_bytes(src.read_bytes())
+        ch2.write_bytes(src.read_bytes())
+
+        rc = cli_main([str(tmp_path), "--out", str(out_dir), "--output-format", "xlsx"])
+        assert rc == 0
+
+        xlsx_files = sorted(out_dir.glob("*.xlsx"))
+        stems = {p.name for p in xlsx_files}
+        assert "E2602280.TV-1.xlsx" in stems, "per-channel file for TV-1 missing"
+        assert "E2602280.TV-2.xlsx" in stems, "per-channel file for TV-2 missing"
+        assert "E2602280.xlsx" not in stems, "colliding combined stem must not appear"
+        assert "combined_all.xlsx" in stems
+
+    def test_cli_done_summary_log_message(self, tmp_path, caplog):
+        """The final summary log message must say 'Done — N total events written to DIR'."""
+        out_dir = tmp_path / "out"
+        ch1 = tmp_path / "E2602280.TV-1"
+        ch1.write_bytes(FORMAT_A_XML.read_bytes())
+
+        with caplog.at_level(logging.INFO, logger="bxf_parser"):
+            cli_main([str(tmp_path), "--out", str(out_dir), "--output-format", "xlsx"])
+
+        done_messages = [r.message for r in caplog.records if r.message.startswith("Done —")]
+        assert done_messages, "Expected a 'Done — …' summary log message"
+        assert str(out_dir) in done_messages[0]
