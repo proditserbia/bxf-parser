@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Schedule>
+  <Events Channel="BBC1">
+    <Event Uid="EVT-001" Type="Programme" FullyQualifiedType="Programme.Drama" NotionalStartTime="2026-01-05 20:00:00.000" NotionalDuration="01:00:00:00" Created="2026-01-01 09:00:00">
+      <ScheduleName>MAIN SCHED</ScheduleName>
+      <ScheduleExternalId>EXT-001</ScheduleExternalId>
+      <PreviousUid></PreviousUid>
+      <OwnerUid></OwnerUid>
+      <EventKind>MainEvent</EventKind>
+      <Fields>
+        <Parameter Name="Device" Value="PLAYBACK1" />
+        <Parameter Name="Duration" Value="01:00:00:00" />
+        <Parameter Name="EventName" Value="The Drama Series EP01" />
+        <Parameter Name="MaterialId" Value="DRAMA_EP01_HD" />
+        <Parameter Name="MediaID" Value="MEDIA_12345" />
+        <Parameter Name="PlayoutDevice" Value="VCS_SERVER_A" />
+        <Parameter Name="StartMode" Value="Fixed" />
+        <Parameter Name="AsRunStartTime" Value="2026-01-05 20:00:05.123" />
+        <Parameter Name="AsRunDuration" Value="00:59:45:00" />
+        <Parameter Name="AsRunEndTime" Value="2026-01-05 20:59:50.123" />
+        <Parameter Name="AsRunKernelStatusCode" Value="OK" />
+        <Parameter Name="AsRunStartedOnAir" Value="TRUE" />
+        <Parameter Name="AsRunFinishedOnAir" Value="TRUE" />
+      </Fields>
+    </Event>
+    <Event Uid="EVT-002" Type="Material" FullyQualifiedType="Material.Video" NotionalStartTime="2026-01-05 20:00:00.000" NotionalDuration="00:59:45:00" Created="2026-01-01 09:00:00">
+      <ScheduleName>MAIN SCHED</ScheduleName>
+      <OwnerUid>EVT-001</OwnerUid>
+      <EventKind>MaterialEvent</EventKind>
+      <Fields>
+        <Parameter Name="Device" Value="PLAYBACK1" />
+        <Parameter Name="Duration" Value="00:59:45:00" />
+        <Parameter Name="EventName" Value="The Drama Series EP01" />
+        <Parameter Name="MaterialId" Value="DRAMA_EP01_HD" />
+        <Parameter Name="PlayoutDevice" Value="VCS_SERVER_A" />
+        <Parameter Name="StartMode" Value="Fixed" />
+        <Parameter Name="AsRunStartTime" Value="2026-01-05 20:00:05.123" />
+        <Parameter Name="AsRunDuration" Value="00:59:45:00" />
+        <Parameter Name="AsRunEndTime" Value="2026-01-05 20:59:50.123" />
+        <Parameter Name="AsRunKernelStatusCode" Value="OK" />
+      </Fields>
+    </Event>
+    <Event Uid="EVT-003" Type="Graphic" FullyQualifiedType="Graphic.BUG" NotionalStartTime="2026-01-05 20:00:00.000" NotionalDuration="01:00:00:00" Created="2026-01-01 09:00:00">
+      <ScheduleName>MAIN SCHED</ScheduleName>
+      <OwnerUid>EVT-001</OwnerUid>
+      <EventKind>Normal</EventKind>
+      <Fields>
+        <Parameter Name="Device" Value="CG_INSERTER" />
+        <Parameter Name="Duration" Value="01:00:00:00" />
+        <Parameter Name="EventName" Value="Channel Bug Overlay" />
+        <Parameter Name="StartMode" Value="Auto" />
+        <Parameter Name="AsRunStartTime" Value="2026-01-05 20:00:05.200" />
+        <Parameter Name="AsRunDuration" Value="01:00:00:00" />
+        <Parameter Name="AsRunEndTime" Value="2026-01-05 21:00:05.200" />
+        <Parameter Name="AsRunKernelStatusCode" Value="OK" />
+        <Parameter Name="TransitionType" Value="CUT" />
+        <Parameter Name="TransitionDuration" Value="00:00:00:00" />
+      </Fields>
+    </Event>
+    <Event Uid="EVT-004" Type="DSK" FullyQualifiedType="DSK.LowerThird" NotionalStartTime="2026-01-05 20:30:00.000" NotionalDuration="00:00:10:00" Created="2026-01-01 09:00:00">
+      <ScheduleName>MAIN SCHED</ScheduleName>
+      <OwnerUid>EVT-001</OwnerUid>
+      <EventKind>Normal</EventKind>
+      <Fields>
+        <Parameter Name="Device" Value="DSK1" />
+        <Parameter Name="Duration" Value="00:00:10:00" />
+        <Parameter Name="EventName" Value="Actor Name Lower Third" />
+        <Parameter Name="StartMode" Value="Auto" />
+        <Parameter Name="AsRunStartTime" Value="2026-01-05 20:30:01.000" />
+        <Parameter Name="AsRunDuration" Value="00:00:10:00" />
+        <Parameter Name="AsRunEndTime" Value="2026-01-05 20:30:11.000" />
+        <Parameter Name="AsRunKernelStatusCode" Value="OK" />
+      </Fields>
+    </Event>
+    <Event Uid="EVT-005" Type="LiveSource" FullyQualifiedType="LiveSource.Camera" NotionalStartTime="2026-01-05 21:00:00.000" NotionalDuration="00:30:00:00" Created="2026-01-01 09:00:00">
+      <ScheduleName>MAIN SCHED</ScheduleName>
+      <OwnerUid></OwnerUid>
+      <EventKind>MainEvent</EventKind>
+      <Fields>
+        <Parameter Name="Device" Value="LIVE_CAMERA_1" />
+        <Parameter Name="Duration" Value="00:30:00:00" />
+        <Parameter Name="EventName" Value="Live News Update" />
+        <Parameter Name="PlayoutDevice" Value="LIVE_FEED" />
+        <Parameter Name="StartMode" Value="Manual" />
+        <Parameter Name="AsRunStartTime" Value="2026-01-05 21:00:02.000" />
+        <Parameter Name="AsRunDuration" Value="00:30:00:00" />
+        <Parameter Name="AsRunEndTime" Value="2026-01-05 21:30:02.000" />
+        <Parameter Name="AsRunKernelStatusCode" Value="OK" />
+        <Parameter Name="AsRunStartedOnAir" Value="TRUE" />
+        <Parameter Name="AsRunFinishedOnAir" Value="TRUE" />
+      </Fields>
+    </Event>
+  </Events>
+</Schedule>
