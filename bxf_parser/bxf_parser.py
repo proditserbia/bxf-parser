@@ -158,7 +158,7 @@ def main(argv: List[str] | None = None) -> int:
     if all_rows:
         combined_stem = out_dir / "combined_all"
         write_outputs(all_rows, combined_stem, args.output_format)
-        logger.info("Combined output: %d total events", len(all_rows))
+        logger.info("Done — %d total events written to %s", len(all_rows), out_dir)
     else:
         logger.warning("No events were extracted from any file.")
 
