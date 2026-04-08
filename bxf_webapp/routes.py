@@ -104,12 +104,12 @@ def upload():
         file = request.files.get("file")
         if not file or not file.filename:
             flash("No file selected.", "error")
-            return redirect(request.url)
+            return redirect(url_for("main.upload"))
 
         filename = secure_filename(file.filename)
         if not _allowed_file(filename):
             flash("Only .xml and .sch files are accepted.", "error")
-            return redirect(request.url)
+            return redirect(url_for("main.upload"))
 
         upload_dir = Path(current_app.config["UPLOAD_DIR"])
         upload_dir.mkdir(parents=True, exist_ok=True)

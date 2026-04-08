@@ -93,10 +93,10 @@ class IngestWatcher(threading.Thread):
         for candidate in sorted(self._watch_dir.iterdir()):
             if not candidate.is_file():
                 continue
-            if candidate.suffix.lower() not in _XML_SUFFIXES:
-                # Also accept files with no extension or unusual suffixes (TV-*)
-                if "." in candidate.name and candidate.suffix.lower() not in ("", ".xml", ".sch"):
-                    continue
+            suffix = candidate.suffix.lower()
+            # Accept known XML suffixes or extensionless files (e.g. E2602280.TV-1)
+            if suffix and suffix not in _XML_SUFFIXES:
+                continue
             if candidate in self._seen:
                 continue
             self._seen.add(candidate)

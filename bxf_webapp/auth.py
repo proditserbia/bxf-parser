@@ -17,6 +17,7 @@ from flask import (
     session,
     url_for,
 )
+from urllib.parse import urlsplit
 from werkzeug.security import check_password_hash
 
 from .db import get_user
@@ -63,7 +64,11 @@ def login():
             session.clear()
             session["username"] = user["username"]
             logger.info("User '%s' logged in", username)
-            next_page = request.args.get("next") or url_for("main.index")
+            next_page = request.args.get("next", "")
+            # Only allow relative paths to prevent open-redirect attacks
+            parsed = urlsplit(next_page)
+            if not next_page or parsed.scheme or parsed.netloc:
+                next_page = url_for("main.index")
             return redirect(next_page)
 
     return render_template("login.html", error=error)
