@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Login — BXF AsRun{% endblock %}
+
+{% block content %}
+<div class="login-wrap">
+  <h1>Sign in</h1>
+  {% if error %}
+    <div class="flash flash-error">{{ error }}</div>
+  {% endif %}
+  <form method="post" action="{{ url_for('auth.login') }}{% if request.args.get('next') %}?next={{ request.args.get('next') }}{% endif %}">
+    <label for="username">Username</label>
+    <input id="username" name="username" type="text" autocomplete="username" required autofocus/>
+    <label for="password">Password</label>
+    <input id="password" name="password" type="password" autocomplete="current-password" required/>
+    <button type="submit" class="btn-primary">Log in</button>
+  </form>
+</div>
+{% endblock %}

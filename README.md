@@ -1,8 +1,9 @@
 # bxf-parser
 
-A Python 3 command-line tool that parses two broadcast schedule XML / BXF-like
-file formats and extracts operationally meaningful playout events into a
-normalised tabular output (CSV and XLSX).
+A Python 3 tool that parses two broadcast schedule XML / BXF-like file formats
+and extracts operationally meaningful playout events.  Available as both a
+**command-line tool** (CSV/XLSX export) and a **production-ready web application**
+(SQLite storage, authentication, automatic ingest, and full-text search).
 
 ---
 
@@ -11,7 +12,8 @@ normalised tabular output (CSV and XLSX).
 - Auto-detects the input format (Format A or Format B)
 - Extracts only key playout / on-air / graphics events — not every XML row
 - Classifies events: PROGRAMME, GRAPHICS, LIVE_INPUT, PLAYOUT, PROGRAMME_CONTAINER, OTHER
-- Exports per-file **and** combined outputs to CSV and / or XLSX
+- Exports per-file outputs to CSV and / or XLSX (CLI)
+- **Web app**: login-protected search UI, file upload, automatic directory ingest, ingest audit log
 - Handles UTF-8 and Cyrillic text
 - Robust to missing tags, empty values, and large files
 - Full CLI with helpful flags
@@ -54,7 +56,7 @@ source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-`requirements.txt` contains only `openpyxl` (for XLSX export).
+`requirements.txt` contains `openpyxl` (XLSX export) and `flask` (web app).
 Everything else uses the Python standard library.
 
 ---
@@ -175,6 +177,39 @@ Keyword sets used:
 
 ---
 
+## Web application
+
+```bash
+# Start the web server (default: http://0.0.0.0:5000)
+python run_webapp.py
+```
+
+Log in with the bootstrap credentials (`admin` / `changeme` by default) and change
+the password via environment variables in production.
+
+### Environment variables
+
+| Variable | Default | Description |
+|---|---|---|
+| `SECRET_KEY` | random | Flask session signing key — **must be set in production** |
+| `DATABASE_PATH` | `bxf_web.db` | SQLite database file path |
+| `UPLOAD_DIR` | `/tmp/bxf_uploads` | Staging directory for uploaded files |
+| `WATCH_DIR` | _(disabled)_ | Directory to watch for auto-ingest |
+| `WATCH_INTERVAL` | `30` | Auto-ingest poll interval in seconds |
+| `ADMIN_USERNAME` | `admin` | Bootstrap admin username |
+| `ADMIN_PASSWORD` | `changeme` | Bootstrap admin password — **change in production** |
+| `DEBUG` | `false` | Enable Flask debug mode |
+
+### Web app features
+
+- **Search** — full-text search on title/material/note with filters for channel, date, event class, and format
+- **Upload** — upload a single XML file for immediate ingest with configurable parse options
+- **Auto-ingest** — set `WATCH_DIR` to a network share or drop folder; any new XML file is parsed automatically every `WATCH_INTERVAL` seconds
+- **Ingest log** — audit trail of every ingest operation with status and event count
+- **Authentication** — all routes require login; session-based with `werkzeug` password hashing
+
+---
+
 ## Project structure
 
 ```
@@ -185,9 +220,24 @@ bxf_parser/
     parsers.py        parse_format_a, parse_format_b, classify_* functions
     exporters.py      export_csv, export_xlsx
     bxf_parser.py     CLI entry point
+    gui.py            Tkinter desktop GUI
+
+bxf_webapp/
+    __init__.py       App factory export
+    app.py            Flask app factory + admin bootstrap
+    config.py         Config class (env-var driven)
+    db.py             SQLite schema, connection helpers, CRUD
+    auth.py           Login/logout blueprint + @login_required decorator
+    ingest.py         ingest_file() + IngestWatcher background thread
+    routes.py         Main blueprint (search, upload, ingest-log)
+    templates/        Jinja2 HTML templates
+    static/           CSS
+
+run_webapp.py         Web server entry point
 
 tests/
-    test_bxf_parser.py   pytest test suite (64 tests)
+    test_bxf_parser.py   CLI/parser pytest suite (66 tests)
+    test_webapp.py        Web app pytest suite (37 tests)
     data/
         sample_format_a.xml
         sample_format_b.xml
@@ -201,7 +251,7 @@ README.md
 ## Running tests
 
 ```bash
-pip install pytest openpyxl
+pip install pytest openpyxl flask
 pytest tests/ -v
 ```
 

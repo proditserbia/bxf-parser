@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Ingest Log — BXF AsRun{% endblock %}
+
+{% block content %}
+<h1>Ingest Log</h1>
+<p>Most recent 200 ingest operations.</p>
+
+{% if entries %}
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Time (UTC)</th>
+      <th>File</th>
+      <th>Source</th>
+      <th>Events</th>
+      <th>Status</th>
+      <th>Message</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for entry in entries %}
+    <tr class="{% if entry['status'] == 'error' %}row-error{% endif %}">
+      <td>{{ entry['ingested_at'] }}</td>
+      <td>{{ entry['filename'] }}</td>
+      <td>—</td>
+      <td>{{ entry['events_count'] }}</td>
+      <td><span class="badge badge-{{ entry['status'] }}">{{ entry['status'] }}</span></td>
+      <td>{{ entry['message'] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+<p>No ingest operations recorded yet.</p>
+{% endif %}
+{% endblock %}
