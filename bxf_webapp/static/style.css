@@ -1,0 +1,100 @@
+/* =========================================================
+   BXF AsRun — minimal production stylesheet
+   ========================================================= */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #f4f6fa;
+  --surface:  #ffffff;
+  --border:   #d1d9e6;
+  --text:     #1a1f2e;
+  --muted:    #6b7280;
+  --primary:  #2563eb;
+  --danger:   #dc2626;
+  --success:  #16a34a;
+  --warning:  #d97706;
+  --radius:   6px;
+}
+
+body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); font-size: 15px; }
+
+/* ---- Navbar ---- */
+.navbar {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--primary); color: #fff; padding: 0 1.5rem; height: 52px;
+}
+.brand { color: #fff; text-decoration: none; font-weight: 700; font-size: 1.1rem; }
+.nav-links { display: flex; align-items: center; gap: 1rem; }
+.nav-links a { color: #dbeafe; text-decoration: none; font-size: 0.9rem; }
+.nav-links a:hover { color: #fff; }
+.nav-user { color: #bfdbfe; font-size: 0.85rem; }
+.btn-logout { background: rgba(255,255,255,0.15); padding: 4px 10px; border-radius: var(--radius); }
+
+/* ---- Container ---- */
+.container { max-width: 1280px; margin: 0 auto; padding: 1.5rem; }
+
+/* ---- Flash messages ---- */
+.flash { padding: .7rem 1rem; border-radius: var(--radius); margin-bottom: 1rem; font-size: .9rem; }
+.flash-success { background: #dcfce7; color: var(--success); border: 1px solid #bbf7d0; }
+.flash-error   { background: #fee2e2; color: var(--danger);  border: 1px solid #fecaca; }
+
+/* ---- Login ---- */
+.login-wrap { max-width: 380px; margin: 4rem auto; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; }
+.login-wrap h1 { margin-bottom: 1.5rem; font-size: 1.4rem; }
+.login-wrap label { display: block; font-size: .85rem; color: var(--muted); margin-bottom: 2px; margin-top: .8rem; }
+.login-wrap input { width: 100%; border: 1px solid var(--border); border-radius: var(--radius); padding: .5rem .7rem; font-size: .95rem; }
+.login-wrap button { width: 100%; margin-top: 1.2rem; }
+
+/* ---- Buttons ---- */
+.btn-primary, .btn-secondary {
+  display: inline-block; padding: .45rem 1rem; border-radius: var(--radius);
+  border: none; cursor: pointer; font-size: .9rem; text-decoration: none; text-align: center;
+}
+.btn-primary  { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: #1d4ed8; }
+.btn-secondary { background: var(--border); color: var(--text); }
+.btn-secondary:hover { background: #c7d2e6; }
+
+/* ---- Search form ---- */
+h1 { font-size: 1.4rem; margin-bottom: 1rem; }
+.search-form { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem; }
+.search-row { display: flex; gap: .5rem; margin-bottom: .75rem; }
+.search-q { flex: 1; border: 1px solid var(--border); border-radius: var(--radius); padding: .45rem .7rem; font-size: .95rem; }
+.filters { display: flex; gap: 1rem; flex-wrap: wrap; }
+.filters label { font-size: .85rem; color: var(--muted); display: flex; flex-direction: column; gap: 3px; }
+.filters select, .filters input[type=date] { border: 1px solid var(--border); border-radius: var(--radius); padding: .35rem .6rem; font-size: .9rem; }
+
+.result-count { font-size: .9rem; color: var(--muted); margin-bottom: .75rem; }
+
+/* ---- Table ---- */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); font-size: .88rem; }
+th { background: #f1f5f9; padding: .55rem .75rem; text-align: left; font-weight: 600; border-bottom: 1px solid var(--border); white-space: nowrap; }
+td { padding: .5rem .75rem; border-bottom: 1px solid #edf0f7; vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #f8fafc; }
+.title-cell { max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row-error td { background: #fff5f5; }
+
+/* ---- Badges ---- */
+.badge { display: inline-block; padding: 2px 7px; border-radius: 3px; font-size: .78rem; font-weight: 600; }
+.badge-programme          { background: #dbeafe; color: #1e40af; }
+.badge-programme_container{ background: #e0e7ff; color: #3730a3; }
+.badge-graphics           { background: #fef9c3; color: #92400e; }
+.badge-live_input         { background: #dcfce7; color: #166534; }
+.badge-other              { background: #f1f5f9; color: var(--muted); }
+.badge-ok                 { background: #dcfce7; color: var(--success); }
+.badge-error              { background: #fee2e2; color: var(--danger); }
+
+/* ---- Upload form ---- */
+.upload-form { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; max-width: 600px; }
+.upload-form label { display: block; font-size: .85rem; color: var(--muted); margin-bottom: 4px; margin-top: .8rem; }
+.upload-form input[type=file] { font-size: .9rem; }
+.upload-form fieldset { border: 1px solid var(--border); border-radius: var(--radius); padding: .75rem 1rem; margin-top: .8rem; }
+.upload-form legend { font-size: .85rem; color: var(--muted); padding: 0 .4rem; }
+.checkbox-label { display: flex; align-items: center; gap: .5rem; font-size: .9rem; color: var(--text); margin-top: .4rem; }
+.upload-form button, .upload-form a { margin-top: 1rem; margin-right: .5rem; }
+
+/* ---- Pagination ---- */
+.pagination { display: flex; align-items: center; gap: .75rem; margin-top: 1rem; font-size: .9rem; }

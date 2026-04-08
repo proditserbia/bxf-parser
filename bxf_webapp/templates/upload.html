@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Upload — BXF AsRun{% endblock %}
+
+{% block content %}
+<h1>Upload AsRun File</h1>
+<p>Upload a single broadcast schedule XML file for immediate ingest.</p>
+<p>Accepted file types: <code>.xml</code>, <code>.sch</code>, channel files (e.g. <code>E2602280.TV-1</code>).</p>
+
+<form method="post" enctype="multipart/form-data" class="upload-form">
+  <label for="file">File</label>
+  <input id="file" name="file" type="file" accept=".xml,.sch" required/>
+
+  <fieldset>
+    <legend>Parse options</legend>
+    <label class="checkbox-label">
+      <input type="checkbox" name="only_key_events" value="1" checked/>
+      Only key events (recommended)
+    </label>
+    <label class="checkbox-label">
+      <input type="checkbox" name="flatten_graphics" value="1"/>
+      Flatten graphics titles under parent programme
+    </label>
+    <label class="checkbox-label">
+      <input type="checkbox" name="include_all_key" value="1"/>
+      Include all Format&nbsp;B child events
+    </label>
+  </fieldset>
+
+  <button type="submit" class="btn-primary">Upload &amp; Ingest</button>
+  <a href="{{ url_for('main.search') }}" class="btn-secondary">Cancel</a>
+</form>
+{% endblock %}

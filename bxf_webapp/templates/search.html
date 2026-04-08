@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}Search Events — BXF AsRun{% endblock %}
+
+{% block content %}
+<h1>Search Events</h1>
+
+<form method="get" action="{{ url_for('main.search') }}" class="search-form">
+  <div class="search-row">
+    <input type="text" name="q" value="{{ q }}" placeholder="Title / material / note …" class="search-q"/>
+    <button type="submit" class="btn-primary">Search</button>
+    <a href="{{ url_for('main.search') }}" class="btn-secondary">Clear</a>
+  </div>
+  <div class="filters">
+    <label>Channel
+      <select name="channel">
+        <option value="">All channels</option>
+        {% for ch in channels %}
+          <option value="{{ ch }}" {% if ch == channel %}selected{% endif %}>{{ ch }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Date
+      <input type="date" name="broadcast_date" value="{{ broadcast_date }}"/>
+    </label>
+    <label>Class
+      <select name="event_class">
+        <option value="">All classes</option>
+        {% for ec in event_classes %}
+          <option value="{{ ec }}" {% if ec == event_class %}selected{% endif %}>{{ ec }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Format
+      <select name="source_format">
+        <option value="">All formats</option>
+        <option value="astra_diface_lite" {% if source_format == 'astra_diface_lite' %}selected{% endif %}>ASTRA</option>
+        <option value="schedule_xml" {% if source_format == 'schedule_xml' %}selected{% endif %}>Schedule XML</option>
+      </select>
+    </label>
+  </div>
+</form>
+
+<p class="result-count">
+  {% if total == 0 %}
+    No events found.
+  {% elif total == 1 %}
+    1 event found.
+  {% else %}
+    {{ total }} events found{% if total_pages > 1 %} — page {{ page }} of {{ total_pages }}{% endif %}.
+  {% endif %}
+</p>
+
+{% if rows %}
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Channel</th>
+      <th>Class</th>
+      <th>Title</th>
+      <th>Start</th>
+      <th>Duration</th>
+      <th>Material ID</th>
+      <th>Source</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in rows %}
+    <tr class="cls-{{ row['event_class'] | lower }}">
+      <td>{{ row['broadcast_date'] }}</td>
+      <td>{{ row['channel'] }}</td>
+      <td><span class="badge badge-{{ row['event_class'] | lower }}">{{ row['event_class'] }}</span></td>
+      <td class="title-cell" title="{{ row['secondary_title'] }}">{{ row['title'] }}</td>
+      <td>{{ row['start_time'] }}</td>
+      <td>{{ row['duration'] }}</td>
+      <td>{{ row['material_id'] }}</td>
+      <td>{{ row['source_file'] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+{% if total_pages > 1 %}
+<div class="pagination">
+  {% set base = url_for('main.search', q=q, channel=channel, broadcast_date=broadcast_date, event_class=event_class, source_format=source_format) %}
+  {% if page > 1 %}
+    <a href="{{ base }}&page={{ page - 1 }}" class="btn-secondary">← Prev</a>
+  {% endif %}
+  <span>{{ page }} / {{ total_pages }}</span>
+  {% if page < total_pages %}
+    <a href="{{ base }}&page={{ page + 1 }}" class="btn-secondary">Next →</a>
+  {% endif %}
+</div>
+{% endif %}
+{% endif %}
+{% endblock %}
